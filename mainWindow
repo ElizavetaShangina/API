@@ -1,0 +1,59 @@
+import sys
+
+from PyQt5 import uic  # Импортируем uic
+from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtGui import QPixmap
+
+delt, koeff = 50, 1
+
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('api_design.ui', self)
+        self.show_index_flag = False
+        self.btn_up.clicked.connect(self.reload_map)
+        self.btn_down.clicked.connect(self.reload_map)
+        self.btn_left.clicked.connect(self.reload_map)
+        self.btn_right.clicked.connect(self.reload_map)
+        self.decrease_btn.clicked.connect(self.reload_map)
+        self.increase_btn.clicked.connect(self.reload_map)
+        self.search_btn.clicked.connect(self.search_func)
+        self.reset_btn.clicked.connect(self.reset_request)
+        self.show_post_index_btn.clicked.connect(self.show_post_index)
+        for layer in ['map', 'sat', 'skl', 'trf']:
+            self.choose_layer_cmb.addItem(layer)
+        self.choose_layer_cmb.currentIndexChanged.connect(self.change_layer)
+
+    def reload_map(self):
+        global delt, koeff
+        btn = self.sender().objectName()
+        coords_delts = [-delt * koeff, - delt * koeff, delt * koeff, delt * koeff, -0.10, 0.10]
+        buttons = ['btn_left', 'btn_up', 'btn_right', 'btn_down', 'decrease_btn', 'increase_btn']
+        return coords_delts[buttons.index(btn)]
+
+    def change_layer(self):
+        return self.choose_layer_cmb.currentText()
+
+    def search_func(self):
+        if self.search_input.text():
+            print(self.search_input.text())
+            return self.search_input.text()
+        else:
+            pass
+
+    def reset_request(self):
+        self.search_input.setText('')
+        self.address_output.setText('')
+
+    def show_post_index(self):
+        self.show_index_flag = not self.show_index_flag
+        if self.show_index_flag:
+            pass
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = MainWindow()
+    ex.show()
+    sys.exit(app.exec_())
