@@ -27,7 +27,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="btn_left">
     <property name="geometry">
      <rect>
       <x>720</x>
@@ -59,7 +59,7 @@
      <string>Down</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_">
+   <widget class="QPushButton" name="btn_right">
     <property name="geometry">
      <rect>
       <x>820</x>
@@ -70,6 +70,9 @@
     </property>
     <property name="text">
      <string>&gt;</string>
+    </property>
+    <property name="shortcut">
+     <string>Right</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_up">
@@ -88,7 +91,7 @@
      <string>Up</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="choose_layer_cmb">
     <property name="geometry">
      <rect>
       <x>700</x>
@@ -96,6 +99,11 @@
       <width>181</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
     </property>
    </widget>
    <widget class="QLineEdit" name="search_input">
