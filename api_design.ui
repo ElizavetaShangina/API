@@ -211,7 +211,7 @@
      <string>Сброс</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="search_btn_2">
+   <widget class="QPushButton" name="show_post_index_btn">
     <property name="geometry">
      <rect>
       <x>490</x>
