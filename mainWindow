@@ -3,6 +3,7 @@ import sys
 from PyQt5 import uic  # Импортируем uic
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtGui import QPixmap
+from main import get_address
 
 delt, koeff = 50, 1
 
@@ -48,8 +49,12 @@ class MainWindow(QMainWindow):
 
     def show_post_index(self):
         self.show_index_flag = not self.show_index_flag
-        if self.show_index_flag:
-            pass
+        text = get_address(self.show_index_flag)
+        self.address_output.setText(text)
+
+    def set_new_map(self, file):
+        pixmap = QPixmap(file)
+        self.map_label.setPixmap(pixmap)
 
 
 if __name__ == '__main__':
