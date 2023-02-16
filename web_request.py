@@ -2,25 +2,25 @@ import requests
 from PyQt5.QtGui import QPixmap
 
 
-def request_image(url="http://static-maps.yandex.ru/1.x/", params={}):
+def request_image(params, url="http://static-maps.yandex.ru/1.x/"):
     response = requests.get(url=url, params=params)
     if not response:
         print("Ошибка выполнения запроса:")
         print(url)
         print("Http статус:", response.status_code, "(", response.reason, ")")
-        return -1
+        return 'ERROR'
     pixmap = QPixmap()
     pixmap.loadFromData(response.content)
     return pixmap
 
 
-def request_adress(url="http://geocode-maps.yandex.ru/1.x/", params={}):
+def request_adress(params, url="http://geocode-maps.yandex.ru/1.x/"):
     response = requests.get(url=url, params=params)
     if not response:
         print("Ошибка выполнения запроса:")
         print(url)
         print("Http статус:", response.status_code, "(", response.reason, ")")
-        return -1
+        return 'ERROR'
     json_response = response.json()
     toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
     # for i in json_response["response"]["GeoObjectCollection"]["featureMember"]:
@@ -29,13 +29,14 @@ def request_adress(url="http://geocode-maps.yandex.ru/1.x/", params={}):
     return adress['formatted'], adress['postal_code']
 
 
-def requests_nearby(url="http://geocode-maps.yandex.ru/1.x/", params={}, coords=(0, 0)):
+def requests_nearby(params, url="http://geocode-maps.yandex.ru/1.x/"):
+    coords = list(map(float, params['geocode'].split(',')))
     response = requests.get(url=url, params=params)
     if not response:
         print("Ошибка выполнения запроса:")
         print(url)
         print("Http статус:", response.status_code, "(", response.reason, ")")
-        return -1
+        return 'ERROR'
     json_response = response.json()
     toponym = json_response["response"]["GeoObjectCollection"]["featureMember"]
     results = []
@@ -49,4 +50,9 @@ def requests_nearby(url="http://geocode-maps.yandex.ru/1.x/", params={}, coords=
 
 
 if __name__ == '__main__':
-    print(requests_nearby("http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode=37.677751,55.757718&format=json"))
+    params = {
+        'apikey': '40d1649f-0493-4b70-98ba-98533de7710b',
+        'geocode': '37.677751,55.757718',
+        'format': 'json'
+    }
+    print(requests_nearby(params, "http://geocode-maps.yandex.ru/1.x/"))
